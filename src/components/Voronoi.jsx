@@ -1,34 +1,17 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import * as d3 from "d3";
-import dip_highlight_1 from "../img/dip-highlight-1.png"
-import dip_highlight_2 from "../img/dip-highlight-2.png"
-import dip_highlight_3 from "../img/dip-highlight-3.png"
-import dip_highlight_4 from "../img/dip-highlight-4.png"
 
-import pip_highlight_1 from "../img/pip-highlight-1.png"
-import pip_highlight_2 from "../img/pip-highlight-2.png"
-import pip_highlight_3 from "../img/pip-highlight-3.png"
-import pip_highlight_4 from "../img/pip-highlight-4.png"
-import pip_highlight_5 from "../img/pip-highlight-5.png"
-
-import mcp_highlight_1 from "../img/mcp-highlight-1.png"
-import mcp_highlight_2 from "../img/mcp-highlight-2.png"
-import mcp_highlight_3 from "../img/mcp-highlight-3.png"
-import mcp_highlight_4 from "../img/mcp-highlight-4.png"
-import mcp_highlight_5 from "../img/mcp-highlight-5.png"
-
-
-
-
-export default function Voronoi ({ width, height, data, OnSelectedArea }) {
+export default function Voronoi({ width, height, data, OnSelectedArea, area, ClearAllSelectedArea }) {
   const xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
   const yScale = d3.scaleLinear().domain([0, 100]).range([0, height]);
 
-  const highlight_img_list = [
-    dip_highlight_1,dip_highlight_2,dip_highlight_3,dip_highlight_4,
-    pip_highlight_1,pip_highlight_2,pip_highlight_3,pip_highlight_4,pip_highlight_5,
-    mcp_highlight_1,mcp_highlight_2,mcp_highlight_3,mcp_highlight_4,mcp_highlight_5
-  ];
+    useEffect(() => {
+        if (ClearAllSelectedArea) {
+            setSelectedArea([]);
+        }
+    }, [ClearAllSelectedArea])
+
+
   //
   // Delaunay triangulation
   //
@@ -40,39 +23,74 @@ export default function Voronoi ({ width, height, data, OnSelectedArea }) {
   //
   // Voronoi Diagram
   //
-  const [hoveredItem, setHoveredItem] = useState(null);
+
   const [selectedArea, setSelectedArea] = useState([]);
 
   const voronoi = useMemo(() => {
     return delaunay.voronoi([0, 0, width, height]);
   }, [delaunay, width, height]);
 
-  const handleClickedSelectedArea = (i) => {
-    if(selectedArea.some(item => i === item)){
-      const filterItem = selectedArea.filter(item => item !== i);
-      setSelectedArea(filterItem);
-      OnSelectedArea(filterItem);
-    }
-    else{
-      setSelectedArea([...selectedArea,i]);
-      OnSelectedArea([...selectedArea,i]);
-    }
-    
-    
+    const dipList = [0, 1, 2, 3];
+    const pipList = [4, 5, 6, 7, 8];
+    const mcpList = [9, 10, 11, 12, 13];
+
+    const handleClickedSelectedArea = (i) => {
+        if (area === "finger") {
+            if (selectedArea.some(item => i === item)) {
+                if (dipList.some(item => i === item)) {
+                    const filterItem = selectedArea.filter(item => !dipList.includes(item));
+                    setSelectedArea(filterItem);
+                    OnSelectedArea(filterItem);
+                }
+                else if (pipList.some(item => i === item)) {
+                    const filterItem = selectedArea.filter(item => !pipList.includes(item));
+                    setSelectedArea(filterItem);
+                    OnSelectedArea(filterItem);
+                }
+                else if (mcpList.some(item => i === item)) {
+                    const filterItem = selectedArea.filter(item => !mcpList.includes(item));
+                    setSelectedArea(filterItem);
+                    OnSelectedArea(filterItem);
+                }
+            }
+            else {
+                if (dipList.some(item => i === item)) {
+                    setSelectedArea([...selectedArea, dipList].flat());
+                    OnSelectedArea([...selectedArea, dipList].flat());
+                }
+                else if (pipList.some(item => i === item)) {
+                    setSelectedArea([...selectedArea, pipList].flat());
+                    OnSelectedArea([...selectedArea, pipList].flat());
+                }
+                else if (mcpList.some(item => i === item)) {
+                    setSelectedArea([...selectedArea, mcpList].flat());
+                    OnSelectedArea([...selectedArea, mcpList].flat());
+                }
+            }
+        }
+        else {
+            if (selectedArea.some(item => i === item)) {
+                const filterItem = selectedArea.filter(item => item !== i);
+                setSelectedArea(filterItem);
+                OnSelectedArea(filterItem);
+            }
+            else {
+                setSelectedArea([...selectedArea, i]);
+                OnSelectedArea([...selectedArea, i]);
+            }
+        }
   }
 
   const voronoiCells = data.map((d, i) => {
     const path = voronoi.renderCell(i);
     return (
-      <path
+        <path
+            class="opacity-0"
         key={i}
         d={path}
         stroke="grey"
         fill="transparent"
         opacity={0.1}
-        onMouseOver={() => {
-          setHoveredItem(i);
-        }}
         onClick={()=>{handleClickedSelectedArea(i)}}
       />
     );
@@ -81,44 +99,14 @@ export default function Voronoi ({ width, height, data, OnSelectedArea }) {
   const allCircles = data.map((d, i) => {
     return (
       <>
-        <div key={i} class="absolute top-[var(--pos-y)] left-[var(--pos-x)] z-50"
-        style={{
-          '--pos-x': (i>=0 && i<4)? xScale(d.x)-16 +"px" : (i>=4 && i<9)? xScale(d.x)-18+"px" : xScale(d.x)-22+"px" ,
-          '--pos-y': (i>=0 && i<4)? yScale(d.y)-11 +"px" : (i>=4 && i<9)? yScale(d.y)-13+"px" : yScale(d.y)-17+"px",
-        }}>   
-            {/* <img src={highlight_img_list[i]} class={(i>=0 && i<4)? "h-6 w-8" : (i>=4 && i<9)? "h-7 w-10" : "h-9 w-11"}></img> */}
-        </div>
-         <circle key={i} cx={xScale(d.x)} cy={yScale(d.y)} r={4} />
-        {hoveredItem === i && (
-          <circle
-            key={i}
-            cx={xScale(d.x)}
-            cy={yScale(d.y)}
-            r={10}
-            fill="transparent"
-            stroke="red"
-            strokeWidth={3}
-          />
-        )} 
+            <circle
+                class="opacity-0"
+                key={i} cx={xScale(d.x)} cy={yScale(d.y)} r={4} />
 
       </>
     );
   });
 
-  const allHighlight = data.map((d, i) => {
-    return (
-      <>
-        <div key={i} class="absolute top-[var(--pos-y)] left-[var(--pos-x)] z-50"
-        style={{
-          '--pos-x': (i>=0 && i<4)? xScale(d.x)-16 +"px" : (i>=4 && i<9)? xScale(d.x)-18+"px" : xScale(d.x)-22+"px" ,
-          '--pos-y': (i>=0 && i<4)? yScale(d.y)-11 +"px" : (i>=4 && i<9)? yScale(d.y)-13+"px" : yScale(d.y)-17+"px",
-        }}>   
-            <img src={highlight_img_list[i]} class={(i>=0 && i<4)? "h-6 w-8" : (i>=4 && i<9)? "h-7 w-10" : "h-9 w-11"}></img>
-        </div>
-
-      </>
-    );
-  });
 
   return (
 
