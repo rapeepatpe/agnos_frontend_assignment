@@ -2,9 +2,9 @@ import { useMemo, useState, useEffect } from "react";
 import * as d3 from "d3";
 
 export default function Voronoi({ width, height, data, OnSelectedArea, area, ClearAllSelectedArea }) {
+
   const xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
   const yScale = d3.scaleLinear().domain([0, 100]).range([0, height]);
-
     useEffect(() => {
         if (ClearAllSelectedArea) {
             setSelectedArea([]);
@@ -18,7 +18,7 @@ export default function Voronoi({ width, height, data, OnSelectedArea, area, Cle
   const delaunay = useMemo(() => {
     const formattedData = data.map((d) => [xScale(d.x), yScale(d.y)]);
     return d3.Delaunay.from(formattedData);
-  }, [data]);
+  }, [data, xScale, yScale]);
 
   //
   // Voronoi Diagram
@@ -26,7 +26,8 @@ export default function Voronoi({ width, height, data, OnSelectedArea, area, Cle
 
   const [selectedArea, setSelectedArea] = useState([]);
 
-  const voronoi = useMemo(() => {
+    const voronoi = useMemo(() => {
+        
     return delaunay.voronoi([0, 0, width, height]);
   }, [delaunay, width, height]);
 
@@ -85,7 +86,7 @@ export default function Voronoi({ width, height, data, OnSelectedArea, area, Cle
     const path = voronoi.renderCell(i);
     return (
         <path
-            class="opacity-0"
+            /*class="opacity-0"*/
         key={i}
         d={path}
         stroke="grey"
@@ -100,7 +101,7 @@ export default function Voronoi({ width, height, data, OnSelectedArea, area, Cle
     return (
       <>
             <circle
-                class="opacity-0"
+                /*class="opacity-0"*/
                 key={i} cx={xScale(d.x)} cy={yScale(d.y)} r={4} />
 
       </>

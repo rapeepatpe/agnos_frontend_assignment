@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import default_finger from '../img/finger/default-finger.png';
 import Voronoi from "../components/Voronoi";
 import FingerHighLight from "../components/FingerHighLight";
@@ -7,6 +7,7 @@ import pip_active from "../img/finger/pip-active.png"
 import mcp_active from "../img/finger/mcp-active.png"
 import default_finger_other from '../img/finger/default-finger-other.png';
 import default_finger_other_highlight from '../img/finger/others-highlight.png';
+import { useDimensions } from '../hooks/useDimensions';
 
 import {data} from "../data/Finger_data";
 
@@ -14,8 +15,15 @@ export default function FingerAreaPage(){
     const [selectedArea, setSelectedArea] = useState([]);
     const [isAllSelected, setIsAllSelected] = useState(false);
     const [isCleared, setIsCleared] = useState(false);
+    const divRef = useRef(null);
+
+    const dimension = useDimensions(divRef);
+
+    
+
 
     useEffect(() => {
+        console.log(dimension);
         if (selectedArea.some(item => 0 === item) && selectedArea.some(item => 4 === item) && selectedArea.some(item => 9 === item)) {
             setIsAllSelected(true);
         }
@@ -30,6 +38,8 @@ export default function FingerAreaPage(){
             setIsCleared(false);
         }
     }, [selectedArea])
+
+
 
     const handleSelectedArea = (e) => {
         setSelectedArea(e);
@@ -88,22 +98,23 @@ export default function FingerAreaPage(){
     }
 
     return (
-    
+        
             
         <div class="flex-col">
             
-            <div class="grid items-center justify-items-center text-[#585858] text-center text-3xl mb-12">Which part of your fingers hurt the most?</div>
+            <div class="grid items-center justify-items-center text-[#585858] text-center text-3xl mb-12">Which part of your fingers hurt the most? {dimension.width} {dimension.height}</div>
             <div class="relative grid justify-items-center max-h-96 min-h-[498px] min-w-[346.2px] mb-12">
                 {renderDipActive()}
                 {renderPipActive()}
                 {renderMcpActive()}
 
-                <img src={default_finger} alt="finger" class="absolute h-3/5 min-h-[498px] min-w-[346.2px]"></img>
+                {/*<img src={default_finger} alt="finger" class="absolute h-3/5 min-h-[498px] min-w-[346.2px]"></img>*/}
+                <img src={default_finger} alt="finger" class="absolute lg: h-full w-1/5 md:h-full w-[200px]" ref={divRef}></img>
                 <div class="absolute z-40">
-                    <FingerHighLight data={data} width={346.2} height={498} SelectedArea={selectedArea}/>
+                    <FingerHighLight data={data} width={dimension.width} height={dimension.height} SelectedArea={selectedArea}/>
                 </div>
                 <div class="absolute z-50">
-                    <Voronoi data={data} width={346.2} height={498} OnSelectedArea={(e) => handleSelectedArea(e)} area="finger" ClearAllSelectedArea={isCleared} />
+                    <Voronoi data={data} width={dimension.width} height={dimension.height} OnSelectedArea={(e) => handleSelectedArea(e)} area="finger" ClearAllSelectedArea={isCleared} />
                 </div>
             </div> 
 

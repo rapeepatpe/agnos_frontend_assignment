@@ -21,7 +21,6 @@ import mcp_highlight_5 from "../img/finger/mcp-highlight-5.png"
 
 export default function FingerHighLight ({ width, height, data, SelectedArea}) {
 
-  console.log(SelectedArea);
   const xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
   const yScale = d3.scaleLinear().domain([0, 100]).range([0, height]);
 
@@ -31,7 +30,6 @@ export default function FingerHighLight ({ width, height, data, SelectedArea}) {
     mcp_highlight_1,mcp_highlight_2,mcp_highlight_3,mcp_highlight_4,mcp_highlight_5
   ];
 
-    console.log(SelectedArea);
 
 
   const allHighlight = data.map((d, i) => {

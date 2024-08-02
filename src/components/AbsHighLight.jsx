@@ -14,7 +14,6 @@ import llq_highlight from "../img/abs/llq-highlight.png";
 
 export default function HighLight ({ width, height, data, SelectedArea}) {
 
-  console.log(SelectedArea);
   const xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
   const yScale = d3.scaleLinear().domain([0, 100]).range([0, height]);
 
