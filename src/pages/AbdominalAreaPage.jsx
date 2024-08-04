@@ -43,7 +43,7 @@ export default function AbdominalAreaPage() {
     }, [selectedArea])
 
     const renderEpiActive = () => {
-        if (selectedArea.some(item => 1 === item)) {
+        if (selectedArea.some(item => 1 === item) && !isAllSelected) {
             return (
                 <img src={epigastrium_active} alt="abs" class="absolute z-50 right-[var(--caption-right)] top-[var(--caption-top)] w-[160px] sm:w-[180px] md:w-[230px] lg:w-[280px]"
                     style={{
@@ -55,7 +55,7 @@ export default function AbdominalAreaPage() {
     }
 
     const renderLlqActive = () => {
-        if (selectedArea.some(item => 6 === item)) {
+        if (selectedArea.some(item => 6 === item) && !isAllSelected) {
             return (
                 <img src={llq_active} alt="abs" class="absolute z-50 left-[var(--caption-left)] top-[var(--caption-top)] w-[160px] sm:w-[180px] md:w-[230px] lg:w-[280px]"
                     style={{
@@ -66,7 +66,7 @@ export default function AbdominalAreaPage() {
     }
 
     const renderLuqActive = () => {
-        if (selectedArea.some(item => 2 === item)) {
+        if (selectedArea.some(item => 2 === item) && !isAllSelected) {
             return (
                 <img src={luq_active} alt="abs" class="absolute z-50 left-[var(--caption-left)] top-[var(--caption-top)] w-[160px] sm:w-[180px] md:w-[230px] lg:w-[280px]"
                     style={{
@@ -77,7 +77,7 @@ export default function AbdominalAreaPage() {
     }
 
     const renderRlqActive = () => {
-        if (selectedArea.some(item => 4 === item)) {
+        if (selectedArea.some(item => 4 === item) && !isAllSelected) {
             return (
                 <img src={rlq_active} alt="abs" class="absolute z-50 right-[var(--caption-right)] top-[var(--caption-top)] w-[160px] sm:w-[180px] md:w-[230px] lg:w-[280px]"
                     style={{
@@ -88,7 +88,7 @@ export default function AbdominalAreaPage() {
     }
 
     const renderRuqActive = () => {
-        if (selectedArea.some(item => 0 === item)) {
+        if (selectedArea.some(item => 0 === item) && !isAllSelected) {
             return (
                 <img src={ruq_active} alt="abs" class="absolute z-50 right-[var(--caption-right)] top-[var(--caption-top)] w-[160px] sm:w-[180px] md:w-[230px] lg:w-[280px]"
                     style={{
@@ -98,7 +98,7 @@ export default function AbdominalAreaPage() {
         }
     }
     const renderSupActive = () => {
-        if (selectedArea.some(item => 5 === item)) {
+        if (selectedArea.some(item => 5 === item) && !isAllSelected) {
             return (
                 <img src={suprapubic_active} alt="abs" class="absolute z-50 right-[var(--caption-right)] top-[var(--caption-top)] w-[160px] sm:w-[180px] md:w-[230px] lg:w-[280px]"
                     style={{
@@ -108,7 +108,7 @@ export default function AbdominalAreaPage() {
         }
     }
     const renderUmbActive = () => {
-        if (selectedArea.some(item => 3 === item)) {
+        if (selectedArea.some(item => 3 === item) && !isAllSelected) {
             return (
                 <img src={umbilicus_active} alt="abs" class="absolute z-40 right-[var(--caption-right)] top-[var(--caption-top)] w-[160px] sm:w-[180px] md:w-[230px] lg:w-[280px]"
                     style={{
