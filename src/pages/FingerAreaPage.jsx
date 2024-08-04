@@ -48,7 +48,7 @@ export default function FingerAreaPage(){
     const renderDipActive = () => {
         if (selectedArea.some(item => 0 === item) && !(selectedArea.some(item => 4 === item) && selectedArea.some(item => 9 === item)))
         return (
-            <img src={dip_active} alt="finger" class="absolute  left-[var(--caption-left)] top-[var(--caption-top)]"
+            <img src={dip_active} alt="finger" class="absolute  left-[var(--caption-left)] top-[var(--caption-top)] w-[180px] sm:w-[180px] md:w-[230px] lg:w-[280px]"
             style={{
                 '--caption-left': "53%",
                 '--caption-top': "-10%",
@@ -58,7 +58,7 @@ export default function FingerAreaPage(){
     const renderPipActive = () => {
         if (selectedArea.some(item => 4 === item) && !(selectedArea.some(item => 0 === item) && selectedArea.some(item => 9 === item)))
             return (
-                <img src={pip_active} alt="finger" class="absolute  left-[var(--caption-left)] top-[var(--caption-top)]"
+                <img src={pip_active} alt="finger" class="absolute  left-[var(--caption-left)] top-[var(--caption-top)] w-[180px] sm:w-[180px] md:w-[230px] lg:w-[280px]"
                     style={{
                         '--caption-left': "54%",
                         '--caption-top': "7%",
@@ -68,7 +68,7 @@ export default function FingerAreaPage(){
     const renderMcpActive = () => {
         if (selectedArea.some(item => 9 === item) && !(selectedArea.some(item => 4 === item) && selectedArea.some(item => 0 === item)))
             return (
-                <img src={mcp_active} alt="finger" class="absolute  left-[var(--caption-left)] top-[var(--caption-top)]"
+                <img src={mcp_active} alt="finger" class="absolute  left-[var(--caption-left)] top-[var(--caption-top)] w-[180px] sm:w-[180px] md:w-[230px] lg:w-[280px]"
                     style={{
                         '--caption-left': "54%",
                         '--caption-top': "23%",
@@ -80,14 +80,14 @@ export default function FingerAreaPage(){
         if (isAllSelected) {
             return (
                 <div class="grid items-center justify-items-center" onClick={() => {handleOtherClick()}}>
-                    <img src={default_finger_other_highlight} alt="finger"></img>
+                    <img class="w-[427px] sm:w-[477px] md:w-[527px] lg:w-[577px]" src={default_finger_other_highlight} alt="finger"></img>
                 </div>
             );
         }
         else {
             return (
                 <div class="grid items-center justify-items-center">
-                    <img src={default_finger_other} alt="finger"></img>
+                    <img class="w-[427px] sm:w-[477px] md:w-[527px] lg:w-[577px]" src={default_finger_other} alt="finger"></img>
                 </div>
             );
         }
@@ -102,14 +102,18 @@ export default function FingerAreaPage(){
             
         <div class="flex-col">
             
-            <div class="grid items-center justify-items-center text-[#585858] text-center text-3xl mb-12">Which part of your fingers hurt the most? {dimension.width} {dimension.height}</div>
-            <div class="relative grid justify-items-center max-h-96 min-h-[498px] min-w-[346.2px] mb-12">
+            <div class="grid items-center justify-items-center text-[#585858] text-center text-xl mb-4 mt-4 sm:text-xl mb-4 mt-4 md:text-2xl mb-12 mt-12 lg:text-3xl mb-16 mt-16 ">Which part of your fingers hurt the most?</div>
+            <div class="relative grid justify-items-center max-h-96 min-h-[var(--dim-h)] min-w-[var(--dim-w)] mb-8 sm:mb-8 md:mb-10 lg:mb-12"
+                style={{
+                    '--dim-h': dimension.height +"px",
+                    '--dim-w': dimension.width +"px",
+            }}>
                 {renderDipActive()}
                 {renderPipActive()}
                 {renderMcpActive()}
 
                 {/*<img src={default_finger} alt="finger" class="absolute h-3/5 min-h-[498px] min-w-[346.2px]"></img>*/}
-                <img src={default_finger} alt="finger" class="absolute lg: h-full w-1/5 md:h-full w-[200px]" ref={divRef}></img>
+                <img src={default_finger} alt="finger" class="absolute w-[240px] sm:w-[270px] md:w-[300px] lg:w-[330px] h-[345px] sm:h-[388px] md:h-[430px] lg:h-[475px] " ref={divRef}></img>
                 <div class="absolute z-40">
                     <FingerHighLight data={data} width={dimension.width} height={dimension.height} SelectedArea={selectedArea}/>
                 </div>

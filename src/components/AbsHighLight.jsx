@@ -32,7 +32,7 @@ export default function HighLight ({ width, height, data, SelectedArea}) {
             '--pos-x': (i === 3) ? xScale(d.x) - 27 + "px" : (i === 0 || i === 4) ? xScale(d.x) - 34 + "px" : (i === 2 || i === 6) ? xScale(d.x) - 36 + "px" : xScale(d.x) - 34 + "px" ,
             '--pos-y': (i === 3) ? yScale(d.y) - 25 + "px" : (i === 0 || i === 4) ? yScale(d.y) - 36 + "px" : (i === 2 || i === 6) ? yScale(d.y) - 30 + "px" : yScale(d.y) - 34 + "px" ,
         }}>   
-                <img src={highlight_img_list[i]} alt="abs-highlight" class= "h-2/3 w-2/3"></img>
+                <img src={highlight_img_list[i]} alt="abs-highlight" class= "w-3/5 sm:w-2/3 md:w-2/3 lg:w-2/3 h-2/3" ></img>
         </div>}
 
       </>
